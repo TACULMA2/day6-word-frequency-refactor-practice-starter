@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
 
@@ -36,16 +37,17 @@ public class WordFrequencyGame {
 
                 wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
 
-                StringJoiner joiner = new StringJoiner(NEWLINE_DELIMITER);
-                for (WordFrequencyInfo word : wordFrequencyInfoList) {
-                    String s = word.getWord() + SPACE_CHAR + word.getWordCount();
-                    joiner.add(s);
-                }
-                return joiner.toString();
+                return generatePrintLines(wordFrequencyInfoList);
             } catch (Exception e) {
                 return CALCULATE_ERROR;
             }
         }
+    }
+
+    private String generatePrintLines(List<WordFrequencyInfo> wordFrequencyInfoList) {
+        return wordFrequencyInfoList.stream()
+                .map(wordFrequencyInfo -> wordFrequencyInfo.getWord() + SPACE_CHAR + wordFrequencyInfo.getWordCount())
+                .collect(Collectors.joining(NEWLINE_DELIMITER));
     }
 
     private Map<String, List<WordFrequencyInfo>> getListMap(List<WordFrequencyInfo> wordFrequencyInfoList) {

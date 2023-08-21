@@ -11,17 +11,17 @@ public class WordFrequencyGame {
     public static final String SPACE_CHAR = " ";
     public static final String CALCULATE_ERROR = "Calculate Error";
 
-    public String getResult(String inputStr) {
-        if (inputStr.split(SPACE_DELIMETER).length == 1) {
-            return inputStr + " 1";
+    public String getResult(String inputText) {
+        if (inputText.split(SPACE_DELIMETER).length == 1) {
+            return inputText + " 1";
         } else {
             try {
                 //split the input string with 1 to n pieces of spaces
-                String[] arr = inputStr.split(SPACE_DELIMETER);
+                String[] words = inputText.split(SPACE_DELIMETER);
 
                 List<WordFrequencyInfo> wordFrequencyInfoList = new ArrayList<>();
-                for (String s : arr) {
-                    WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(s, 1);
+                for (String word : words) {
+                    WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(word, 1);
                     wordFrequencyInfoList.add(wordFrequencyInfo);
                 }
                 //get the map for the next step of sizing the same word
@@ -34,11 +34,11 @@ public class WordFrequencyGame {
                 }
                 wordFrequencyInfoList = list;
 
-                wordFrequencyInfoList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
+                wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
 
                 StringJoiner joiner = new StringJoiner(NEWLINE_DELIMITER);
-                for (WordFrequencyInfo w : wordFrequencyInfoList) {
-                    String s = w.getWord() + SPACE_CHAR + w.getWordCount();
+                for (WordFrequencyInfo word : wordFrequencyInfoList) {
+                    String s = word.getWord() + SPACE_CHAR + word.getWordCount();
                     joiner.add(s);
                 }
                 return joiner.toString();
@@ -53,15 +53,14 @@ public class WordFrequencyGame {
         for (WordFrequencyInfo wordFrequencyInfo : wordFrequencyInfoList) {
 //       map.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
             if (!map.containsKey(wordFrequencyInfo.getWord())) {
-                ArrayList arr = new ArrayList<>();
-                arr.add(wordFrequencyInfo);
-                map.put(wordFrequencyInfo.getWord(), arr);
+                List<WordFrequencyInfo> frequencyInfoList = new ArrayList<>();
+                frequencyInfoList.add(wordFrequencyInfo);
+                map.put(wordFrequencyInfo.getWord(), frequencyInfoList);
             } else {
                 map.get(wordFrequencyInfo.getWord()).add(wordFrequencyInfo);
             }
         }
         return map;
     }
-
 
 }

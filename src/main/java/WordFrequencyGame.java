@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
@@ -26,22 +22,46 @@ public class WordFrequencyGame {
                     wordFrequencyInfoList.add(wordFrequencyInfo);
                 }
                 //get the map for the next step of sizing the same word
-                Map<String, List<WordFrequencyInfo>> map = getListMap(wordFrequencyInfoList);
+//                Map<String, List<WordFrequencyInfo>> map = getListMap(wordFrequencyInfoList);
 
-                List<WordFrequencyInfo> list = new ArrayList<>();
-                for (Map.Entry<String, List<WordFrequencyInfo>> entry : map.entrySet()) {
-                    WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(entry.getKey(), entry.getValue().size());
-                    list.add(wordFrequencyInfo);
-                }
-                wordFrequencyInfoList = list;
-
-                wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
+//                List<WordFrequencyInfo> frequencyInfos = new ArrayList<>();
+//                for (Map.Entry<String, List<WordFrequencyInfo>> entry : map.entrySet()) {
+//                    WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(entry.getKey(), entry.getValue().size());
+//                    frequencyInfos.add(wordFrequencyInfo);
+//                }
+                wordFrequencyInfoList = frequencyInfos(wordFrequencyInfoList)
+                        .stream()
+                        .sorted((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount())
+                        .collect(Collectors.toList());
 
                 return generatePrintLines(wordFrequencyInfoList);
             } catch (Exception e) {
                 return CALCULATE_ERROR;
             }
         }
+    }
+//    private List<WordFrequencyInfo> sortWordFrequencyList(List<WordFrequencyInfo> wordFrequencyInfoList) {
+//        return wordFrequencyInfoList.stream()
+//                .collect(Collectors.groupingBy(WordFrequencyInfo::getWord))
+//                .entrySet().stream()
+//                .map(entry -> new WordFrequencyInfo(entry.getKey(), entry.getValue().size()))
+//                .sorted(Comparator.comparingInt(WordFrequencyInfo::getWordCount).reversed())
+//                .collect(Collectors.toList());
+//    }
+//List<WordFrequencyInfo> frequencyInfos = new ArrayList<>();
+//                for (Map.Entry<String, List<WordFrequencyInfo>> entry : map.entrySet()) {
+//        WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(entry.getKey(), entry.getValue().size());
+//        frequencyInfos.add(wordFrequencyInfo);
+//    }
+//    wordFrequencyInfoList = frequencyInfos;
+
+    private List<WordFrequencyInfo> frequencyInfos(List<WordFrequencyInfo> wordFrequencyInfoList) {
+        return wordFrequencyInfoList.stream()
+                .collect(Collectors.groupingBy(WordFrequencyInfo::getWord))
+                .entrySet().stream()
+                .map(entry -> new WordFrequencyInfo(entry.getKey(), entry.getValue().size()))
+                .sorted(Comparator.comparingInt(WordFrequencyInfo::getWordCount).reversed())
+                .collect(Collectors.toList());
     }
 
     private String generatePrintLines(List<WordFrequencyInfo> wordFrequencyInfoList) {

@@ -1,7 +1,6 @@
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class WordFrequencyGameTest {
 
@@ -56,7 +55,7 @@ public class WordFrequencyGameTest {
     private void validate_Input_words_process_to_expected_word(String inputStr, String expectResult) {
         WordFrequencyGame game = new WordFrequencyGame();
         //When
-        String result = game.getResult(inputStr);
+        String result = game.calculateWordFrequency(inputStr);
         //Then
         assertThat(result).isEqualTo(expectResult);
     }

@@ -8,7 +8,7 @@ public class WordFrequencyGame {
     public static final String SPACE_CHAR = " ";
     public static final String CALCULATE_ERROR = "Calculate Error";
 
-    public String getResult(String inputText) {
+    public String calculateWordFrequency(String inputText) {
         String[] words = inputText.split(SPACE_DELIMITER);
         if (words.length == 1) {
             return inputText + SPACE_CHAR + "1";

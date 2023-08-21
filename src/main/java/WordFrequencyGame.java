@@ -13,7 +13,7 @@ public class WordFrequencyGame {
         if (words.length == 1) {
             return inputText + SPACE_CHAR + "1";
         }
-        List<WordFrequencyInfo> wordFrequencyInfoList = wordFrequencyInfoList(words);
+        List<WordFrequencyInfo> wordFrequencyInfoList = calculateWordFrequencyInfoList(words);
         if (wordFrequencyInfoList == null) {
             throw new RuntimeException(CALCULATE_ERROR);
         }
@@ -22,7 +22,7 @@ public class WordFrequencyGame {
         return generatePrintLines(sortedWordFrequencyList);
     }
 
-    private List<WordFrequencyInfo> wordFrequencyInfoList(String[] words) {
+    private List<WordFrequencyInfo> calculateWordFrequencyInfoList(String[] words) {
         return Arrays.stream(words)
                 .map(word -> new WordFrequencyInfo(word, 1))
                 .collect(Collectors.toList());
